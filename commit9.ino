@@ -1,7 +1,6 @@
 #define USE_ARDUINO_INTERRUPTS true
 #include <PulseSensorPlayground.h>  
 
-//  Variables
 const int PulseWire = 0;
 int Threshold = 550;
                                

@@ -1,4 +1,3 @@
-
 #define USE_ARDUINO_INTERRUPTS true
 #include <PulseSensorPlayground.h>  
 
@@ -13,9 +12,7 @@ void setup() {
 
   Serial.begin(9600);
 
- 
-  pulseSensor.analogInput(PulseWire);   
-  pulseSensor.blinkOnPulse(LED13);
+  pulseSensor.analogInput(PulseWire);
   pulseSensor.setThreshold(Threshold);   
 
    if (pulseSensor.begin()) {

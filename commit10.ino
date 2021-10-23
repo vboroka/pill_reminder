@@ -1,50 +1,48 @@
 #define USE_ARDUINO_INTERRUPTS true
-#include <PulseSensorPlayground.h>  
+#include <PulseSensorPlayground.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 20, 4);
 
 const int PulseWire = 0;
 int Threshold = 550;
-const char button1 = 5;
-const char button2 = 6;
-const char button3 = 7;
-bool pressed = false;
-int hours = 0;
-int mins = 0;
-
+ 
 PulseSensorPlayground pulseSensor;
 
-
-void setup() {   
-
-  Serial.begin(9600);
-  pinMode(button1, INPUT_PULLUP);
-  pinMode(button2, INPUT_PULLUP);
-  pinMode(button3, INPUT_PULLUP);
-
-  pulseSensor.analogInput(PulseWire);
-  pulseSensor.setThreshold(Threshold);   
-
-   if (pulseSensor.begin()) {
-    Serial.println("PulseSensor objektum létrehozva!");
-  }
-}
-
-
-
-void loop() {
-
- int myBPM = pulseSensor.getBeatsPerMinute();
+void setup() {
  
- bool currentState = digitalRead(button1);
- bool currentState2 = digitalRead(button2);
- bool currentState3 = digitalRead(button3);
+  Serial.begin(9600);
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+ 
+  pulseSensor.analogInput(PulseWire);
+  pulseSensor.setThreshold(Threshold);
+ 
+  if (pulseSensor.begin()) {
+    Serial.println("PulseSensor objektum létrehozva!"); 
+  }
 
- if(currentState3 == pressed && pulseSensor.sawStartOfBeat()){
+  pinMode(9, INPUT);
+  digitalWrite(9, HIGH);
+}
+ 
+void loop() {
+ 
+int myBPM = pulseSensor.getBeatsPerMinute();
+
+while(digitalRead(9) == LOW){
+    if (pulseSensor.sawStartOfBeat()) {
+      
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Pulzus: ");
+      lcd.print(myBPM);
+
+    }
     
-    Serial.print("BPM érzékelve: ");
-    Serial.println(myBPM);
-  
- }
+    delay(20);
 
-  delay(20);
+  }
 
-} 
+}

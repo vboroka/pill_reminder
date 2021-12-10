@@ -140,11 +140,11 @@ void loop()
   lcd.setCursor(0, 0);
   if (now.hour() < 10) {
     lcd.print('0');
-    lcd.print(now.hour(), DEC);
+    lcd.print(now.hour()-1, DEC);
 
 
   } else {
-    lcd.print(now.hour(), DEC);
+    lcd.print(now.hour()-1, DEC);
 
   }
   lcd.print(':');
@@ -160,7 +160,7 @@ void loop()
 
 
   //Ha aktuális idő és jelzés ideje egyezik
-  if (ahours == now.hour() && amins == now.minute() && amins != 0)
+  if (ahours == now.hour()-1 && amins == now.minute() && amins != 0)
   {
 
     for (int i = 0; i < 1; i++) {
